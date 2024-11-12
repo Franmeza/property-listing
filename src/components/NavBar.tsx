@@ -3,8 +3,12 @@ import { usePropertyList } from "@/contexts/PropertyListProvider";
 
 const locations = ["All Stays", "Norway", "Finland", "Sweden", "Switzerland"];
 function NavBar() {
-  const { handleSuperhostToggle, setSelectedLocation, selectedLocation } =
-    usePropertyList();
+  const {
+    handleSuperhostToggle,
+    setSelectedLocation,
+    selectedLocation,
+    setSelectedPropertyType,
+  } = usePropertyList();
 
   return (
     <nav className="flex justify-between items-center rounded-xl border border-[#4A5567] mx-auto bg-[#20293A] max-w-[1136px] py-8 px-10 text-[#F2F9FE] -mt-14">
@@ -37,11 +41,12 @@ function NavBar() {
           </label>
         </div>
         <select
-          className="bg-transparent px-6 py-3 text-sm font-bold border border-[#4A5567] rounded-xl"
-          name=""
-          id=""
+          className="bg-[#20293A] px-6 py-3 text-sm font-bold border border-[#4A5567] rounded-xl"
+          onChange={(e) => setSelectedPropertyType(e.target.value)}
         >
-          <option value="property-type">Property Type</option>
+          <option value="">Property Type</option>
+          <option value="1">1 bedroom</option>
+          <option value="2">2 bedroom</option>
         </select>
       </div>
     </nav>

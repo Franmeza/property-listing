@@ -47,8 +47,10 @@ export function PropertyListProvider({
       const matchesLocation =
         selectedLocation === "All Stays" ||
         property.location === selectedLocation;
-      // const matchesType = !selectedPropertyType || property.type === selectedPropertyType;
-      return matchesSuperhost && matchesLocation;
+      const matchesType =
+        !selectedPropertyType ||
+        property.capacity.bedroom.toString() === selectedPropertyType;
+      return matchesSuperhost && matchesLocation && matchesType;
     });
     setFilteredProperties(filtered || []);
   }, [properties, isOn, selectedLocation, selectedPropertyType]);
