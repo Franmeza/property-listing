@@ -1,12 +1,18 @@
 import { TPropertyList } from "@/lib/types";
 import { getPropertyList } from "../services/getPropertyListing";
 import { useQuery } from "@tanstack/react-query";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 type PropertyListContextType = {
-  data: TPropertyList[] | undefined;
+  properties: TPropertyList[] | undefined;
   error: Error | null;
   isLoading: boolean;
+  isOn: boolean;
+  handleSuperhostToggle: () => void;
+  selectedLocation: string;
+  setSelectedLocation: (location: string) => void;
+  selectedPropertyType: string;
+  setSelectedPropertyType: (type: string) => void;
 };
 
 export const PropertyListContext =
@@ -17,13 +23,53 @@ export function PropertyListProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const { data, error, isLoading } = useQuery({
+  const [isOn, setIsOn] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState("All Stays");
+  const [selectedPropertyType, setSelectedPropertyType] = useState("");
+  const [filteredProperties, setFilteredProperties] = useState<TPropertyList[]>(
+    []
+  );
+
+  // Query to get the property list
+  const {
+    data: properties,
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: ["property-list"],
-    queryFn: () => getPropertyList(),
+    queryFn: getPropertyList,
   });
 
+  // Apply filtering
+  useEffect(() => {
+    const filtered = properties?.filter((property) => {
+      const matchesSuperhost = !isOn || property.superhost;
+      const matchesLocation =
+        selectedLocation === "All Stays" ||
+        property.location === selectedLocation;
+      // const matchesType = !selectedPropertyType || property.type === selectedPropertyType;
+      return matchesSuperhost && matchesLocation;
+    });
+    setFilteredProperties(filtered || []);
+  }, [properties, isOn, selectedLocation, selectedPropertyType]);
+
+  // Superhost toggle
+  const handleSuperhostToggle = () => setIsOn(!isOn);
+
   return (
-    <PropertyListContext.Provider value={{ data, error, isLoading }}>
+    <PropertyListContext.Provider
+      value={{
+        properties: filteredProperties,
+        error,
+        isLoading,
+        isOn,
+        handleSuperhostToggle,
+        selectedLocation,
+        setSelectedLocation,
+        selectedPropertyType,
+        setSelectedPropertyType,
+      }}
+    >
       {children}
     </PropertyListContext.Provider>
   );
