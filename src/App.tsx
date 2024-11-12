@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import "./App.css";
 import Background from "./components/Background";
 import NavBar from "./components/NavBar";
@@ -10,7 +8,6 @@ function App() {
     <>
       <Background />
       <NavBar />
-
       <PropertyList />
     </>
   );
