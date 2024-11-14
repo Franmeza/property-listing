@@ -1,2 +1,1 @@
-export const API_URL =
-  "https://raw.githubusercontent.com/devchallenges-io/web-project-ideas/main/front-end-projects/data/property-listing-data.json";
+export const API_URL = "http://localhost:3000/properties";

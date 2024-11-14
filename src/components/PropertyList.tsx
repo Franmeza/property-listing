@@ -5,8 +5,8 @@ function PropertyList() {
   const { properties } = usePropertyList();
 
   return (
-    <main className="flex flex-col  mt-12 min-h-screen">
-      <h2 className="text-2xl  ml-16 text-white font-semibold sm:text-3xl">
+    <main className="  pb-16">
+      <h2 className="text-2xl ml-28 mt-12 text-white font-semibold sm:text-3xl">
         Over 200 stays
       </h2>
 
