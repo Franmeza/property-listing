@@ -1,5 +1,6 @@
 import { TPropertyList } from "@/lib/types";
-import { API_URL } from "../lib/consts";
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const getPropertyList = async (): Promise<TPropertyList[]> => {
   try {
